@@ -99,7 +99,6 @@
 			});
 
 			getTimeEntries();
-			updadeTotalEarned();
 
 			// Reset clockIn and clockOut times to the current time
 			vm.clockIn = moment();
