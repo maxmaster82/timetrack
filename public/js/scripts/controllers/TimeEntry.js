@@ -33,32 +33,33 @@
 		function getProject() {
 			project.getProject().then(function(result) {
 				vm.project = result;
+				getTimeEntries();
 			}, function(error) {
 				console.log(error);
 			});
 		}
-
 
 		function getTimeEntries() {
 			time.getTime().then(function(results) {
 				vm.timeentries = results;
 				updateTotalTime(vm.timeentries);
-				updadeTotalEarned(vm.totalTime, vm.project.rate);
+				updadeTotalEarned();
 			}, function(error) {
 				console.log(error);
 			});
 		}
 
+
 		function updateTotalTime(timeentries) {
 			vm.totalTime = time.getTotalTime(timeentries);
 		}
 
-		function updadeTotalEarned(timeTotal, rate) {
-			vm.totalEarned = ((timeTotal.hours*60+timeTotal.minutes)*rate/60).formatMoney(2, '.', ',');
+		function updadeTotalEarned() {
+			vm.totalEarned = ((vm.totalTime.hours*60+vm.totalTime.minutes)*vm.project.rate/60).formatMoney(2, '.', ',');
 		}
 
 		getProject();
-		getTimeEntries();
+
 
 		vm.logNewTime = function() {
 
@@ -98,6 +99,7 @@
 			});
 
 			getTimeEntries();
+			updadeTotalEarned();
 
 			// Reset clockIn and clockOut times to the current time
 			vm.clockIn = moment();
